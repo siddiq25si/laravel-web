@@ -27,17 +27,28 @@ class QuestionController extends Controller
      */
 public function store(Request $request)
 {
-    // //dd($request->all());
+    // Validasi data beserta Custom Messages
+    $request->validate([
+        'nama'       => 'required|min:5',
+        'email'      => 'required|email',
+        'pertanyaan' => 'required|min:10|max:300',
+    ], [
+        'nama.required'       => 'Nama tidak boleh kosong',
+        'nama.min'            => 'Nama minimal 5 karakter',
+        'email.required'      => 'Email tidak boleh kosong',
+        'email.email'         => 'Email tidak valid',
+        'pertanyaan.required' => 'Pertanyaan tidak boleh kosong',
+        'pertanyaan.min'      => 'Pertanyaan minimal 10 karakter',
+        'pertanyaan.max'      => 'Pertanyaan maksimal 300 karakter',
+    ]);
 
-    // 1. Ambil setiap data dari input form
+    // Kode simpan / passing data kamu sebelumnya
     $data['nama']       = $request->nama;
     $data['email']      = $request->email;
     $data['pertanyaan'] = $request->pertanyaan;
 
-    // 2. Passing data ke view home-question-respon
     return view('home-question-respon', $data);
 }
-
     /**
      * Display the specified resource.
      */
