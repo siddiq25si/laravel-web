@@ -7,6 +7,7 @@
     <title>My Laravel App</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
     <!-- Custom CSS -->
     <style>
         body {
@@ -154,7 +155,11 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <h5 class="card-title">Form Pertanyaan</h5>
+        
+        <div class="text-center mb-3">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="img-fluid" style="max-height: 80px;">
+        </div>
+        <h5 class="card-title font-custom">Form Pertanyaan</h5>
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -164,6 +169,13 @@
         </ul>
     </div>
 @endif
+
+@if (session('info'))
+    <div class="alert alert-info">
+        {{ session('info') }}
+    </div>
+@endif
+
         <form action="{{ route('question.store') }}" method="POST">
             @csrf
 

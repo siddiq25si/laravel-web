@@ -27,7 +27,7 @@ class QuestionController extends Controller
      */
 public function store(Request $request)
 {
-    // Validasi data beserta Custom Messages
+    // Validasi input data
     $request->validate([
         'nama'       => 'required|min:5',
         'email'      => 'required|email',
@@ -42,12 +42,11 @@ public function store(Request $request)
         'pertanyaan.max'      => 'Pertanyaan maksimal 300 karakter',
     ]);
 
-    // Kode simpan / passing data kamu sebelumnya
-    $data['nama']       = $request->nama;
-    $data['email']      = $request->email;
-    $data['pertanyaan'] = $request->pertanyaan;
+    // Format pesan sesuai petunjuk modul
+    $pesanInfo = "Terimakasih {$request->nama}! Pertanyaan ini: {$request->pertanyaan} akan segera direspon melalui email {$request->email}";
 
-    return view('home-question-respon', $data);
+    // Redirect kembali ke halaman home membawa flash data 'info'
+    return redirect()->back()->with('info', $pesanInfo);
 }
     /**
      * Display the specified resource.
