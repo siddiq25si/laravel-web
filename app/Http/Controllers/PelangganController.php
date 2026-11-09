@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        // Ubah ::all() menjadi ::paginate(10)
-    $data['dataPelanggan'] = Pelanggan::paginate(10);
+        $filterableColumns = ['gender'];
+        // Daftar kolom yang dapat dicari (First Name, Last Name, Email)
+        $searchableColumns = ['first_name', 'last_name', 'email'];
 
-    return view('admin.pelanggan.index', $data);
+        $data['dataPelanggan'] = Pelanggan::filter($request, $filterableColumns)
+            ->search($request, $searchableColumns)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.pelanggan.index', $data);
     }
 
     /**

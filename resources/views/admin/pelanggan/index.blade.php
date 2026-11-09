@@ -32,6 +32,39 @@
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
+                        <form method="GET" action="{{ route('pelanggan.index') }}" class="mb-3">
+                            <div class="row g-2">
+                                <!-- Filter Gender -->
+                                <div class="col-md-3 col-lg-2">
+                                    <select name="gender" class="form-select" onchange="this.form.submit()">
+                                        <option value="">All Genders</option>
+                                        <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male
+                                        </option>
+                                        <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female
+                                        </option>
+                                        <option value="Other" {{ request('gender') == 'Other' ? 'selected' : '' }}>Other
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Input Search & Clear -->
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="input-group">
+                                        <input type="text" name="search" class="form-control" placeholder="Search..."
+                                            value="{{ request('search') }}">
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                        @if (request('search'))
+                                            <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                                class="btn btn-outline-danger" title="Clear Search">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
                             <thead class="thead-light">
                                 <tr>
@@ -48,7 +81,8 @@
                             <tbody>
                                 @forelse($dataPelanggan as $item)
                                     <tr>
-                                        <td>{{ ($dataPelanggan->currentPage() - 1) * $dataPelanggan->perPage() + $loop->iteration }}</td>
+                                        <td>{{ ($dataPelanggan->currentPage() - 1) * $dataPelanggan->perPage() + $loop->iteration }}
+                                        </td>
                                         <td>{{ $item->first_name }}</td>
                                         <td>{{ $item->last_name }}</td>
                                         <td>{{ $item->birthday }}</td>
